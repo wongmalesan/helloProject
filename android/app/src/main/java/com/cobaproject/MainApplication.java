@@ -1,4 +1,4 @@
-package com.helloproject;
+package com.cobaproject;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
@@ -9,8 +9,6 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
 import java.util.List;
-import com.microsoft.codepush.react.CodePush;
-import com.microsoft.codepush.react.ReactInstanceHolder;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -43,17 +41,6 @@ public class MainApplication extends Application implements ReactApplication {
         @Override
         protected Boolean isHermesEnabled() {
           return BuildConfig.IS_HERMES_ENABLED;
-        }
-
-        @Override
-        protected String getJSBundleFile() {
-            return CodePush.getJSBundleFile();
-        }
-
-         @Override
-        public void onCreate() {
-            CodePush.setReactInstanceHolder(mReactNativeHost);
-            super.onCreate();
         }
       };
 

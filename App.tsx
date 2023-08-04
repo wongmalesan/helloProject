@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import type {PropsWithChildren} from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -24,13 +25,11 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import CodePush from "react-native-code-push";
+type SectionProps = PropsWithChildren<{
+  title: string;
+}>;
 
-const CODE_PUSH_OPTIONS = {
-  checkFrequency: CodePush.CheckFrequency.ON_APP_START
-}
-
-function Section({ children, title }) {
+function Section({children, title}: SectionProps): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
@@ -56,20 +55,12 @@ function Section({ children, title }) {
   );
 }
 
-function App() {
+function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-
-  const syncWithCodePush = status => {
-    console.log('Codepush sync status', status);
-  }
-
-  React.useEffect(() => {
-    CodePush.sync({ installMode: CodePush.InstallMode.IMMEDIATE }, syncWithCodePush);
-  }, [])
 
   return (
     <SafeAreaView style={backgroundStyle}>
