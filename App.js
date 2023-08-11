@@ -1,12 +1,21 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, useColorScheme, } from 'react-native';
 import { Colors, } from 'react-native/Libraries/NewAppScreen';
+import dayjs from 'dayjs'
 
 import codePush from 'react-native-code-push';
 
 const codePushOptions = {
   checkFrequency: codePush.CheckFrequency.ON_APP_START,
   installMode: codePush.InstallMode.IMMEDIATE,
+  updateDialog: {
+    appendReleaseDescription: true, // Menambahkan deskripsi pembaruan jika tersedia
+    descriptionPrefix: 'Pembaruan aplikasi:', // Teks yang ditampilkan sebelum deskripsi pembaruan
+    title: 'Update Tersedia', // Judul dialog peringatan
+    optionalUpdateMessage: 'Ada pembaruan tersedia. Apakah Anda ingin menginstal sekarang?', // Pesan opsional untuk pembaruan wajib
+    optionalIgnoreButtonLabel: 'Nanti', // Label tombol untuk menolak pembaruan opsional
+    optionalInstallButtonLabel: 'Instal', // Label tombol untuk menginstal pembaruan opsional
+  },
 };
 
 function App() {
@@ -21,8 +30,12 @@ function App() {
     try {
       var message = ''
       const update = await codePush.sync({
-        updateDialog: {title:"ada update terbaru !!!"},
-        installMode: codePush.InstallMode.IMMEDIATE
+        updateDialog: { title: "ada update terbaru !!!" },
+        installMode: codePush.InstallMode.IMMEDIATE,
+        // deploymentKey,
+        // mandatoryInstallMode,
+        // minimumBackgroundDuration,
+        // rollbackRetryOptions,
       })
 
       if (update) {
@@ -42,7 +55,9 @@ function App() {
   }, [])
 
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', gap: 10 }}>
+    <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', gap: 10, backgroundColor: "#EADBC8" }}>
+      <Text style={{ color: 'black' }}>{dayjs().format('DD MMMM YYYY HH:mm')}</Text>
+      <Text style={{ color: 'black', fontSize: 20 }}>COBA DIALOG UPDATE</Text>
       <Text style={{ color: 'black' }}>Aku Belajar CodePush</Text>
       <Text style={{ color: 'black' }}>===========</Text>
       <Text style={{ color: 'black' }}>{message}</Text>
@@ -70,5 +85,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// export default codePush(codePushOptions)(App);
-export default codePush(App);
+export default codePush(codePushOptions)(App);
